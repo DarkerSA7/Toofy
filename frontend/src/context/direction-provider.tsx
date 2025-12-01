@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-type Direction = 'ltr' | 'rtl'
+export type Direction = 'ltr' | 'rtl'
 
 type DirectionContextType = {
   direction: Direction
