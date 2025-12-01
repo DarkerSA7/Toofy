@@ -40,33 +40,19 @@ A modern, high-performance anime platform built with Next.js 16, Go Fiber, and M
 
 ```
 toofy4/
-├── frontend/                 # Next.js application
+├── frontend/          # Next.js application
 │   ├── src/
-│   │   ├── app/             # App router pages
-│   │   ├── components/      # Reusable components
-│   │   ├── features/        # Feature modules
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── lib/             # Utilities and helpers
-│   │   └── stores/          # Zustand stores
-│   ├── public/              # Static assets
-│   ├── .env.production      # Production environment variables
-│   ├── next.config.ts       # Next.js configuration
-│   └── vercel.json          # Vercel deployment config
+│   ├── .env.production
+│   ├── vercel.json
+│   └── next.config.ts
 │
-├── backend/                  # Go Fiber API
-│   ├── controllers/         # API handlers
-│   ├── models/              # Data models
-│   ├── routes/              # API routes
-│   ├── middleware/          # Custom middleware
-│   ├── database/            # Database connection
-│   ├── config/              # Configuration
-│   ├── main.go              # Entry point
-│   ├── go.mod               # Go dependencies
-│   └── render.yaml          # Render deployment config
-│
-└── docs/                     # Documentation
-    ├── DEPLOYMENT_GUIDE.md
-    └── DEPLOYMENT_CHECKLIST.md
+└── backend/           # Go Fiber API
+    ├── controllers/
+    ├── models/
+    ├── routes/
+    ├── main.go
+    ├── go.mod
+    └── render.yaml
 ```
 
 ## 🛠️ Local Development
@@ -115,64 +101,19 @@ IDRIVEE2_BUCKET=cover-animes
 PORT=8081
 ```
 
-## 📦 API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user
-
-### Anime
-- `GET /api/anime` - Get all anime (paginated)
-- `GET /api/anime/:id` - Get single anime
-- `POST /api/anime` - Create anime (admin)
-- `PUT /api/anime/:id` - Update anime (admin)
-- `DELETE /api/anime/:id` - Delete anime (admin)
-
-### Episodes
-- `GET /api/episodes?animeId=:id` - Get episodes for anime
-- `POST /api/episodes` - Create episode (admin)
-- `PUT /api/episodes/:id` - Update episode (admin)
-- `DELETE /api/episodes/:id` - Delete episode (admin)
-
-### Slider
-- `GET /api/slider` - Get slider items
-- `PUT /api/slider` - Update slider items (admin)
-
-### Upload
-- `POST /api/upload/cover` - Upload anime cover
-- `DELETE /api/upload/cover` - Delete anime cover
-- `GET /api/upload/image/:key` - Get image
-
-### Users
-- `GET /api/users` - Get all users (admin)
-- `POST /api/users` - Create user (admin)
-- `PUT /api/users/:id/role` - Update user role (admin)
-- `DELETE /api/users/:id` - Delete user (admin)
-
-## 🚀 Deployment
-
-### Quick Start
-1. Read `DEPLOYMENT_GUIDE.md` for detailed instructions
-2. Follow `DEPLOYMENT_CHECKLIST.md` for step-by-step deployment
+## � Deployment
 
 ### Frontend (Vercel)
-```bash
-# Environment variables needed:
-NEXT_PUBLIC_API_URL=https://your-backend-url.onrender.com/api
-```
+1. Push to GitHub
+2. Connect Vercel to GitHub repository
+3. Set `NEXT_PUBLIC_API_URL=https://your-backend.onrender.com/api`
+4. Deploy
 
 ### Backend (Render)
-```bash
-# Environment variables needed:
-MONGODB_URI=your-mongodb-connection-string
-JWT_SECRET=your-jwt-secret
-IDRIVEE2_ACCESS_KEY=your-key
-IDRIVEE2_SECRET_KEY=your-secret
-IDRIVEE2_ENDPOINT=your-endpoint
-IDRIVEE2_BUCKET=cover-animes
-PORT=8081
-```
+1. Push to GitHub
+2. Connect Render to GitHub repository
+3. Set environment variables (MongoDB, JWT, iDrivee2)
+4. Deploy
 
 ## 🔐 Security
 
@@ -202,42 +143,12 @@ cd backend
 go test ./...
 ```
 
-## 📝 Documentation
-
-- [Deployment Guide](./DEPLOYMENT_GUIDE.md) - Complete deployment instructions
-- [Deployment Checklist](./DEPLOYMENT_CHECKLIST.md) - Step-by-step checklist
-- [API Documentation](./backend/README.md) - API endpoints reference
-
 ## 🐛 Troubleshooting
 
-### Common Issues
-
-**CORS Error**
-- Update backend CORS configuration
-- Verify frontend URL is allowed
-
-**API Connection Failed**
-- Check `NEXT_PUBLIC_API_URL` is correct
-- Verify backend is running
-- Check network connectivity
-
-**Images Not Loading**
-- Verify iDrivee2 credentials
-- Check bucket name is correct
-- Verify image URLs in database
-
-**Database Connection Failed**
-- Verify MongoDB URI is correct
-- Check network access to MongoDB
-- Verify credentials
-
-## 📞 Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Review deployment logs
-3. Check browser console for errors
-4. Review backend logs
+- **CORS Error**: Update backend CORS in `main.go`
+- **API Connection Failed**: Check `NEXT_PUBLIC_API_URL` is correct
+- **Images Not Loading**: Verify iDrivee2 credentials
+- **Database Error**: Check MongoDB connection string
 
 ## 📄 License
 
