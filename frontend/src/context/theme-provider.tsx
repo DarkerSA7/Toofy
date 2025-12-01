@@ -29,13 +29,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!mounted) return
 
-    let activeTheme: 'light' | 'dark' = 'light'
+    let activeTheme: 'light' | 'dark'
     if (theme === 'system') {
       activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light'
+    } else if (theme === 'dark') {
+      activeTheme = 'dark'
     } else {
-      activeTheme = theme
+      activeTheme = 'light'
     }
 
     setResolvedTheme(activeTheme)
