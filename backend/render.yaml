@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: toofy-backend
+    runtime: go
+    buildCommand: go build -o main .
+    startCommand: ./main
+    envVars:
+      - key: MONGODB_URI
+        scope: build
+      - key: JWT_SECRET
+        scope: build
+      - key: IDRIVEE2_ACCESS_KEY
+        scope: build
+      - key: IDRIVEE2_SECRET_KEY
+        scope: build
+      - key: IDRIVEE2_ENDPOINT
+        scope: build
+      - key: IDRIVEE2_BUCKET
+        scope: build
+      - key: PORT
+        value: "8081"
+        scope: build
