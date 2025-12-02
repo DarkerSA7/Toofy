@@ -1,16 +1,13 @@
 [build]
 command = "pnpm build"
-publish = ".next"
-functions = "netlify/functions"
+publish = ".next/static"
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
 
 [build.environment]
 NODE_VERSION = "20"
 NEXT_PUBLIC_API_URL = "https://toofy-backend-nx4f.onrender.com/api"
-
-[[redirects]]
-from = "/*"
-to = "/404.html"
-status = 404
 
 [[headers]]
 for = "/_next/static/*"
