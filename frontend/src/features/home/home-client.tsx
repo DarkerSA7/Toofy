@@ -95,19 +95,7 @@ export function HomeClient({ animes, total, currentPage, sliderItems }: HomeClie
                     <a key={anime.id} href={`/anime/${anime.slug || anime.id}`} className='group cursor-pointer'>
                       <div className='relative aspect-[2/3] overflow-hidden rounded-lg border border-border bg-card shadow-md transition-all'>
                         <img
-                          src={(() => {
-                            let url = anime.coverUrl || anime.coverImage || ''
-                            // Convert localhost URLs to production API URL
-                            if (url.includes('localhost:8081')) {
-                              const path = url.split('localhost:8081')[1]
-                              url = `${process.env.NEXT_PUBLIC_API_URL}${path.replace('/api', '')}`
-                            }
-                            // Convert relative URLs to absolute
-                            else if (url.startsWith('/api')) {
-                              url = `${process.env.NEXT_PUBLIC_API_URL}${url.replace('/api', '')}`
-                            }
-                            return url
-                          })()}
+                          src={anime.coverUrl || anime.coverImage || ''}
                           alt={anime.title}
                           className='h-full w-full object-cover'
                           loading="lazy"

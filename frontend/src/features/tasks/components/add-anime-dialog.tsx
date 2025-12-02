@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { animeAPI, uploadAPI } from '@/lib/alova-client'
-import { getImageUrl } from '@/lib/image-url-helper'
 import { revalidateHome } from '@/app/(authenticated)/home/actions'
 import { Button } from '@/components/ui/button'
 import {
@@ -553,7 +552,7 @@ export function AddAnimeDialog({ open, onOpenChange, onSuccess }: AddAnimeDialog
               {newAnime.coverUrl ? (
                 <div className='relative w-48 h-72 mx-auto'>
                   <img
-                    src={getImageUrl(newAnime.coverUrl)}
+                    src={newAnime.coverUrl.startsWith('http') ? newAnime.coverUrl : `${process.env.NEXT_PUBLIC_API_URL}${newAnime.coverUrl.replace('/api', '')}`}
                     alt='Cover'
                     className='w-full h-full object-cover rounded-lg'
                   />

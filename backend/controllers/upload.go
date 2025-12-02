@@ -17,9 +17,10 @@ import (
 )
 
 type UploadController struct {
-s3Client *s3.S3
-bucket   string
-endpoint string
+	s3Client *s3.S3
+	bucket   string
+	endpoint string
+	baseURL  string
 }
 
 func NewUploadController(cfg *config.Config) *UploadController {
@@ -30,9 +31,10 @@ Endpoint:    aws.String(fmt.Sprintf("https://%s", cfg.E2Endpoint)),
 })
 
 return &UploadController{
-s3Client: s3.New(sess),
-bucket:   cfg.E2Bucket,
-endpoint: cfg.E2Endpoint,
+	s3Client: s3.New(sess),
+	bucket:   cfg.E2Bucket,
+	endpoint: cfg.E2Endpoint,
+	baseURL:  cfg.BaseURL,
 }
 }
 
@@ -63,11 +65,11 @@ if err != nil {
 return c.Status(500).JSON(fiber.Map{"success": false, "message": "Upload failed"})
 }
 
-// Build full URL - use relative path so frontend can construct proper URL
-url := fmt.Sprintf("/api/upload/image/%s", key)
+// Build full URL using configured base URL
+url := fmt.Sprintf("%s/api/upload/image/%s", uc.baseURL, key)
 return c.Status(201).JSON(fiber.Map{
-"success": true,
-"data": fiber.Map{"url": url, "key": key},
+	"success": true,
+	"data": fiber.Map{"url": url, "key": key},
 })
 }
 

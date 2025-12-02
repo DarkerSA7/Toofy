@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { useDropzone } from 'react-dropzone'
 import { uploadAPI } from '@/lib/alova-client'
-import { getImageUrl } from '@/lib/image-url-helper'
 import { revalidateHome } from '@/app/(authenticated)/home/actions'
 import { useAuthStore } from '@/stores/auth-store'
 import { X, Plus, Image as ImageIcon, Download } from 'lucide-react'
@@ -341,12 +340,11 @@ export function EditAnimeDialog({ open, onOpenChange, anime, onSuccess }: EditAn
               {editAnimeData.coverUrl ? (
                 <div className='space-y-2'>
                   <img
-                    src={getImageUrl(editAnimeData.coverUrl)}
+                    src={editAnimeData.coverUrl.startsWith('http') ? editAnimeData.coverUrl : `${process.env.NEXT_PUBLIC_API_URL}${editAnimeData.coverUrl.replace('/api', '')}`}
                     alt='Cover preview'
                     className='w-56 h-80 object-cover mx-auto rounded-lg shadow-lg'
                     crossOrigin='anonymous'
                     onError={(e) => {
-                      // Hide the image if it fails to load - no placeholder
                       e.currentTarget.style.display = 'none'
                     }}
                   />

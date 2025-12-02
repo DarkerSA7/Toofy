@@ -325,19 +325,7 @@ export default function CarouselSlider({ sliderItems }: CarouselSliderProps) {
             >
               <div className='relative overflow-hidden rounded-lg select-none'>
                 <img
-                  src={(() => {
-                    let url = slide.coverUrl || ''
-                    // Convert localhost URLs to production API URL
-                    if (url.includes('localhost:8081')) {
-                      const path = url.split('localhost:8081')[1]
-                      url = `${process.env.NEXT_PUBLIC_API_URL}${path.replace('/api', '')}`
-                    }
-                    // Convert relative URLs to absolute
-                    else if (url.startsWith('/api')) {
-                      url = `${process.env.NEXT_PUBLIC_API_URL}${url.replace('/api', '')}`
-                    }
-                    return url
-                  })()}
+                  src={slide.coverUrl || ''}
                   alt={slide.title}
                   className='pointer-events-none h-[400px] w-[320px] object-cover select-none'
                   draggable='false'

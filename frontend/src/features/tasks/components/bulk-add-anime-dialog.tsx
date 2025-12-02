@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { animeAPI, uploadAPI } from '@/lib/alova-client'
-import { getImageUrl } from '@/lib/image-url-helper'
 import { revalidateHome } from '@/app/(authenticated)/home/actions'
 import { Button } from '@/components/ui/button'
 import {

@@ -20,6 +20,7 @@ type Config struct {
 	E2AccessKeyID   string
 	E2SecretKey     string
 	E2Bucket        string
+	BaseURL         string
 }
 
 func LoadConfig() *Config {
@@ -46,6 +47,7 @@ func LoadConfig() *Config {
 		E2AccessKeyID: getEnv("E2_ACCESS_KEY_ID", ""),
 		E2SecretKey:   getEnv("E2_SECRET_ACCESS_KEY", ""),
 		E2Bucket:      getEnv("E2_BUCKET", "cover-animes"),
+		BaseURL:       getEnv("BASE_URL", "http://localhost:8081"),
 		CORSOrigins: []string{
 			"http://localhost:3000",
 			"http://localhost:8081",

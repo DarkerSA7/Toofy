@@ -96,18 +96,9 @@ const createColumns = (
     accessorKey: 'coverUrl',
     header: 'Cover',
     cell: ({ row }) => {
-      let url = row.original.coverUrl
+      const url = row.original.coverUrl
       if (!url) {
         return null
-      }
-      // Convert localhost URLs to production API URL
-      if (url.includes('localhost:8081')) {
-        const path = url.split('localhost:8081')[1]
-        url = `${process.env.NEXT_PUBLIC_API_URL}${path.replace('/api', '')}`
-      }
-      // Convert relative URLs to absolute
-      else if (url.startsWith('/api')) {
-        url = `${process.env.NEXT_PUBLIC_API_URL}${url.replace('/api', '')}`
       }
       return (
         <img
