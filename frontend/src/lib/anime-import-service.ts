@@ -53,7 +53,7 @@ export async function importCoverFromUrl(url: string): Promise<{ imageFile: File
     const imageFile = new File([blob], `anime_cover_${Date.now()}.jpg`, { type: 'image/jpeg' })
     const imageUrl = URL.createObjectURL(imageFile)
 
-    return { imageFile, imageUrl, isBangumi }
+    return { imageFile, imageUrl }
   } catch (error) {
     throw error
   }
