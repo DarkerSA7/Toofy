@@ -12,7 +12,8 @@ export function useUsersWebSocket(callback: UsersUpdateCallback, userID?: string
     // Build WebSocket URL
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api'
     const baseUrl = apiUrl.replace('/api', '').replace('http://', '').replace('https://', '')
-    const wsUrl = `ws://${baseUrl}/ws?userID=${userID}`
+    const protocol = apiUrl.startsWith('https') ? 'wss' : 'ws'
+    const wsUrl = `${protocol}://${baseUrl}/ws?userID=${userID}`
     
     const ws = new WebSocket(wsUrl)
 
