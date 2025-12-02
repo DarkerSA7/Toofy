@@ -69,11 +69,11 @@ function SortableSliderCard({ item, onRemove }: { item: SliderItem; onRemove: (i
               // Convert localhost URLs to production API URL
               if (url.includes('localhost:8081')) {
                 const path = url.split('localhost:8081')[1]
-                url = `${process.env.NEXT_PUBLIC_API_URL}${path.replace('/api', '')}`
+                url = `${process.env.NEXT_PUBLIC_API_URL}${path}`
               }
               // Convert relative URLs to absolute
-              if (url.startsWith('/api')) {
-                url = `${process.env.NEXT_PUBLIC_API_URL}${url.replace('/api', '')}`
+              else if (url.startsWith('/api')) {
+                url = `${process.env.NEXT_PUBLIC_API_URL}${url}`
               }
               return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_API_URL}${url}`
             })()}
