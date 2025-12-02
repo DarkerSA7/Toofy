@@ -2,13 +2,16 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"toofy-backend/config"
 	"toofy-backend/database"
 	"toofy-backend/models"
 )
@@ -400,5 +403,71 @@ func (ac *AnimeController) DeleteAnime(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success": true,
 		"message": "Anime deleted successfully",
+	})
+}
+
+// FixImageURLs updates all anime documents with localhost URLs to use the configured BASE_URL
+func (ac *AnimeController) FixImageURLs(c *fiber.Ctx, cfg *config.Config) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	animeCollection := database.DB.Collection("anime")
+
+	// Find all anime with localhost URLs
+	filter := bson.M{
+		"coverUrl": bson.M{
+			"$regex": "localhost:8081",
+		},
+	}
+
+	cursor, err := animeCollection.Find(ctx, filter)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"error":   "Failed to query anime",
+		})
+	}
+	defer cursor.Close(ctx)
+
+	var results []bson.M
+	if err = cursor.All(ctx, &results); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"error":   "Failed to decode results",
+		})
+	}
+
+	// Update each document
+	updatedCount := 0
+	for _, result := range results {
+		oldURL, ok := result["coverUrl"].(string)
+		if !ok {
+			continue
+		}
+
+		// Extract path after localhost:8081
+		parts := strings.Split(oldURL, "localhost:8081")
+		if len(parts) < 2 {
+			continue
+		}
+
+		path := parts[1]
+		newURL := cfg.BaseURL + path
+
+		_, err := animeCollection.UpdateOne(
+			ctx,
+			bson.M{"_id": result["_id"]},
+			bson.M{"$set": bson.M{"coverUrl": newURL}},
+		)
+		if err != nil {
+			continue
+		}
+		updatedCount++
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"message": fmt.Sprintf("Updated %d anime URLs", updatedCount),
+		"updated": updatedCount,
 	})
 }

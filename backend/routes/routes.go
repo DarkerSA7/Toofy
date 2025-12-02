@@ -112,6 +112,11 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 		handlers.WebSocketUpgrade(c, userID)
 	}))
 
+	// Admin route to fix old localhost URLs
+	protected.Post("/admin/fix-image-urls", func(c *fiber.Ctx) error {
+		return animeCtrl.FixImageURLs(c, cfg)
+	})
+
 	// Health check
 	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
