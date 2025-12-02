@@ -26,12 +26,12 @@ export function useUsersWebSocket(callback: UsersUpdateCallback, userID?: string
           getCurrentUser()
         }
       } catch (error) {
-        console.error('WebSocket parse error:', error)
+        // Silent error handling
       }
     }
 
     ws.onerror = (error) => {
-      console.error('WebSocket error:', error)
+      // Silent error handling
     }
 
     return () => {

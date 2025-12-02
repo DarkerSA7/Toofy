@@ -36,15 +36,11 @@ export function DeleteAnimeDialog({ open, onOpenChange, anime, onSuccess }: Dele
     
     try {
       setDeleting(true)
-      console.log('[handleDeleteAnime] Starting deletion for anime:', anime.title, anime.id)
       
       // Step 1: Delete cover image from iDrive first
       if (anime.coverUrl) {
-        console.log('[handleDeleteAnime] Anime has coverUrl:', anime.coverUrl)
         try {
-          console.log('[handleDeleteAnime] Calling uploadAPI.deleteCover...')
           const deleteResult = await uploadAPI.deleteCover(anime.coverUrl)
-          console.log('[handleDeleteAnime] deleteCover result:', deleteResult)
           if (deleteResult?.success) {
             toast.success('Image deleted from storage')
           } else {
@@ -52,15 +48,11 @@ export function DeleteAnimeDialog({ open, onOpenChange, anime, onSuccess }: Dele
           }
         } catch (error: any) {
           const errorMsg = error?.message || 'Unknown error'
-          console.error('[handleDeleteAnime] Error deleting image:', error)
           toast.warning(`Could not delete image: ${errorMsg}. Continuing with anime deletion...`)
         }
-      } else {
-        console.log('[handleDeleteAnime] No coverUrl found for anime')
       }
       
       // Step 2: Delete anime from database
-      console.log('[handleDeleteAnime] Deleting anime from database...')
       const deleteResult = await animeAPI.delete(anime.id)
       if (!deleteResult?.success) {
         throw new Error('Failed to delete anime from database')
@@ -69,7 +61,6 @@ export function DeleteAnimeDialog({ open, onOpenChange, anime, onSuccess }: Dele
       toast.success('Anime deleted successfully!')
       
       // Step 3: Revalidate cache to update home page and slider
-      console.log('[handleDeleteAnime] Revalidating home cache...')
       await revalidateHome()
       
       // Step 4: Update local state
@@ -79,7 +70,6 @@ export function DeleteAnimeDialog({ open, onOpenChange, anime, onSuccess }: Dele
       onOpenChange(false)
     } catch (error: any) {
       const message = error?.message || 'Error deleting anime'
-      console.error('[handleDeleteAnime] Error:', error)
       toast.error(message)
     } finally {
       setDeleting(false)

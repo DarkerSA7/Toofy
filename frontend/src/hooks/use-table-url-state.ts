@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import type {
   ColumnFiltersState,
   OnChangeFn,
   PaginationState,
 } from '@tanstack/react-table'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type SearchRecord = Record<string, unknown>
 
@@ -68,9 +69,34 @@ type UseTableUrlStateReturn = {
 export function useTableUrlState(
   params: UseTableUrlStateParams
 ): UseTableUrlStateReturn {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  
+  // Convert searchParams to object
+  const search = Object.fromEntries(searchParams.entries())
+  
+  // Create navigate function
+  const navigate = useCallback((opts: Parameters<NavigateFn>[0]) => {
+    const newSearch = typeof opts.search === 'function' 
+      ? opts.search(search as SearchRecord)
+      : opts.search === true ? search : opts.search
+    
+    const params = new URLSearchParams()
+    Object.entries(newSearch).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        params.set(key, String(value))
+      }
+    })
+    
+    const url = `?${params.toString()}`
+    if (opts.replace) {
+      router.replace(url)
+    } else {
+      router.push(url)
+    }
+  }, [search, router])
+  
   const {
-    search,
-    navigate,
     pagination: paginationCfg,
     globalFilter: globalFilterCfg,
     columnFilters: columnFiltersCfg = [],

@@ -52,7 +52,7 @@ function UsersTableContent() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch users:', error)
+      // Silent error handling
     } finally {
       setLoading(false)
     }

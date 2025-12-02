@@ -35,13 +35,11 @@ async function apiRequest(
 
     if (!response.ok) {
       const errorText = await response.text()
-      console.error(`[API Error] ${response.status}: ${errorText}`)
       throw new Error(`API Error: ${response.status} ${response.statusText}`)
     }
 
     return await response.json()
   } catch (error) {
-    console.error('API Request Error:', error)
     throw error
   }
 }
