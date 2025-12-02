@@ -9,8 +9,8 @@ NEXT_PUBLIC_API_URL = "https://toofy-backend-nx4f.onrender.com/api"
 
 [[redirects]]
 from = "/*"
-to = "/index.html"
-status = 200
+to = "/404.html"
+status = 404
 
 [[headers]]
 for = "/_next/static/*"
