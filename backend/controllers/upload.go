@@ -63,9 +63,8 @@ if err != nil {
 return c.Status(500).JSON(fiber.Map{"success": false, "message": "Upload failed"})
 }
 
-// Build full URL - always use localhost:8081 for development
-// In production, this should be configured via environment variable
-url := fmt.Sprintf("http://localhost:8081/api/upload/image/%s", key)
+// Build full URL - use relative path so frontend can construct proper URL
+url := fmt.Sprintf("/api/upload/image/%s", key)
 return c.Status(201).JSON(fiber.Map{
 "success": true,
 "data": fiber.Map{"url": url, "key": key},
