@@ -29,9 +29,10 @@ func main() {
 
 	// CORS Middleware
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000,http://localhost:8081",
+		AllowOrigins: "http://localhost:3000,http://localhost:8081,https://toovy.netlify.app",
 		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders: "Content-Type,Authorization",
+		AllowCredentials: true,
 	}))
 
 	// Setup routes
